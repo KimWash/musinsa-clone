@@ -1,34 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# 무신사 클론
+과제는 최대한 편하게 합시다.
+```
+데이터베이스 중간고사 대체과제가 웹사이트 클론하는거더라고요?
+강의 시간에 PHP를 배웠는데 노드도 된다고 하셔서 "이참에 Next.js나 배워볼까?" 라는 말과 함께 스스로 재앙을 불러와 버렸어요.
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Stack
+Next.js ❤️ Typescript
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 저작권
+이 프로젝트 사용된 모든 리소스와 에셋들의 저작권은 모두 무신사에 있음을 밝힙니다. 법적으로 문제가 될 경우 ckm0728wash@gmail.com 으로 문의주시면 신속히 처리하겠습니다.

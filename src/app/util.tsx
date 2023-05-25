@@ -1,10 +1,23 @@
-export function collapseText(text: string, length: number) {
-  return text.slice(0, length) + "...";
+import { ResponseWrapper } from "./model/dto/ResponseWrapper";
+
+export function collapseText(text?: string, length?: number) {
+  return text?.slice(0, length ?? 0) + "...";
 }
 export function formatNumber(num: number, currency: string) {
   return new Intl.NumberFormat("en-US").format(num) + currency;
 }
 
+export function handleError(e: any) {
+  if (e instanceof Error)
+    return new Response(JSON.stringify(ResponseWrapper.Error(e)), {
+      status: 500,
+    });
+  else
+    return new Response(
+      JSON.stringify(ResponseWrapper.Error(Error("UNKNOWN_ERROR"))),
+      { status: 500 }
+    );
+}
 export function getTimeElapsedText(registrationDate: Date) {
   const now = new Date();
   const elapsedMilliseconds =

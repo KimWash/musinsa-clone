@@ -1,14 +1,27 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 export default function HeaderMemeber() {
+  const user = JSON.parse(localStorage.getItem("user") ?? "null");
+  const router = useRouter();
   return (
     <div className="header-member">
-      <button
-        type="button"
-        aria-label="로그인 페이지로 이동"
-        data-for="loginBox"
-        className="header-member__login"
-      >
-        로그인
-      </button>
+      {user ? (
+        `LV.${user.userRank} ${user.nickNm}`
+      ) : (
+        <Link href="/login">
+          <button
+            type="button"
+            aria-label="로그인 페이지로 이동"
+            data-for="loginBox"
+            className="header-member__login"
+          >
+            로그인
+          </button>
+        </Link>
+      )}
       <div className="header-member__block">
         <button
           type="button"
@@ -22,9 +35,7 @@ export default function HeaderMemeber() {
           <div className="header-member-direct">
             <dl className="header-member-direct__information">
               <dt>
-                <em className="header-member-direct__state-on">
-                  바로접속 ON
-                </em>
+                <em className="header-member-direct__state-on">바로접속 ON</em>
                 고객혜택
               </dt>
               <dd>회원 등급별 추가 할인 및 적립 가능</dd>
@@ -96,13 +107,15 @@ export default function HeaderMemeber() {
         </a>
       </div>
       <div className="header-member__block">
-        <a
-          href="https://www.musinsa.com/app/mypage/order_list_opt"
-          aria-label="주문배송조회 페이지로 이동"
+        <p
+          onClick={() => {
+            if (user) router.push("/app/mypage");
+            else router.push("/login");
+          }}
           className="header-member__link"
         >
           주문배송조회
-        </a>
+        </p>
       </div>
       <div className="header-member__block">
         <a
@@ -113,6 +126,21 @@ export default function HeaderMemeber() {
           고객센터
         </a>
       </div>
+      {user ? (
+        <div className="header-member__block">
+          <p
+            onClick={() => {
+              localStorage.clear();
+              router.push("/login");
+            }}
+            className="header-member__link"
+          >
+            로그아웃
+          </p>
+        </div>
+      ) : (
+        ""
+      )}
 
       <div className="header-member__block">
         <a

@@ -1,9 +1,11 @@
+import Link from "next/link";
+
 export default function Header() {
   return (
     <div className="header store_header clearfix">
       <div className="main-wrapper wrapper">
         <h1 className="title">
-          <a href="/">MUSINSA</a>
+          <Link href="/app">MUSINSA</Link>
         </h1>
         <div className="search-wrapper ">
           <div className="fl searchInput-box box">

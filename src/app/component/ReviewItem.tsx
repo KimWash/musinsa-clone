@@ -23,7 +23,7 @@ export default function ReviewItem({ item }: { item: Review }) {
         </div>
         <p className="main_review_data">
           <span className="img-score score_50" />
-          <span>{getTimeElapsedText(item.regDt)}</span>
+          <span>{getTimeElapsedText(new Date(item.regDt))}</span>
           <span>{item.authorName}</span>
         </p>
       </div>

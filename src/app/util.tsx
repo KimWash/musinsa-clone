@@ -21,7 +21,7 @@ export function handleError(e: any) {
 export function getTimeElapsedText(registrationDate: Date) {
   const now = new Date();
   const elapsedMilliseconds =
-    now.getMilliseconds() - registrationDate.getMilliseconds();
+    now.getMilliseconds() - registrationDate?.getMilliseconds();
 
   const millisecondsInASecond = 1000;
   const millisecondsInAMinute = 60 * millisecondsInASecond;

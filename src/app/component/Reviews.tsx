@@ -1,13 +1,8 @@
 import { Review } from "../model/dto/ReviewItemDto";
 import ReviewItem from "./ReviewItem";
 
-export default function Reviews({
-  reviewItems,
-  reviewItems2,
-}: {
-  reviewItems: Review[];
-  reviewItems2: Review[];
-}) {
+export default function Reviews({ reviewItems }: { reviewItems: Review[] }) {
+  console.log(reviewItems);
   return (
     <div className="right_container main_review_area">
       <div className="main_category_box">
@@ -19,15 +14,17 @@ export default function Reviews({
 
       <div className="main_review_box main_contents_maxwidth">
         <ul className="main_contents_size main_review" id="style_estimate">
-          {reviewItems.map((item) => (
+          {reviewItems.slice(0, reviewItems.length / 2).map((item) => (
             <ReviewItem key={item.id} item={item} />
           ))}
         </ul>
 
         <ul className="main_contents_size main_review" id="beauty_estimate">
-          {reviewItems2.map((item) => (
-            <ReviewItem key={item.id} item={item} />
-          ))}
+          {reviewItems
+            .slice(reviewItems.length / 2, reviewItems.length)
+            .map((item) => (
+              <ReviewItem key={item.id} item={item} />
+            ))}
         </ul>
       </div>
     </div>

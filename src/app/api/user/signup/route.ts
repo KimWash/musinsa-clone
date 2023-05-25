@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     );
 
     const result = await queryPromise(
-      `SELECT * FROM TMember WHERE memberId = '${body.memberId}'`
+      `SELECT memberId, nickNm, userPoint, userRank FROM TMember WHERE memberId = '${body.memberId}'`
     );
     return new Response(JSON.stringify(ResponseWrapper.Success(result[0])));
   } catch (e) {

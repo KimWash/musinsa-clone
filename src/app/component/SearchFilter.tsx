@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { formatNumber } from "../util";
 
-export interface SearchFilter {
+export interface SearchFilterDto {
   category?: string;
   material?: string;
   fit?: string;
@@ -10,7 +11,11 @@ export interface SearchFilter {
   priceBelow?: number;
 }
 
-export default function SearchFilter() {
+export default function SearchFilter({
+  onSearch,
+}: {
+  onSearch: (filter: SearchFilterDto) => void;
+}) {
   const categories = [
     "상의",
     "스포츠용품",
@@ -28,7 +33,7 @@ export default function SearchFilter() {
 
   const materials = [
     "면",
-    "폴리에스테르",
+    "폴리에스터",
     "나일론",
     "레이온/인견",
     "스판덱스",
@@ -37,7 +42,7 @@ export default function SearchFilter() {
     "린넨",
     "모달",
     "니트",
-    "텐셀",
+    "가죽",
     "울",
     "데님",
     "비스코스",
@@ -46,13 +51,18 @@ export default function SearchFilter() {
 
   const fits = ["스키니", "슬림", "레귤러", "루즈", "오버사이즈"];
 
-  const [serachFilter, setSearchFilter] = useState<SearchFilter>({});
+  const [serachFilter, setSearchFilter] = useState<SearchFilterDto>({});
   function setFilterField(
-    fieldName: keyof SearchFilter,
-    value: SearchFilter[keyof SearchFilter]
+    fieldName: keyof SearchFilterDto,
+    value: SearchFilterDto[keyof SearchFilterDto]
   ) {
-    setSearchFilter((prevState) => ({ ...prevState, [fieldName]: value }));
+    const valueToSet = serachFilter[fieldName] == value ? undefined : value;
+    setSearchFilter((prevState) => ({ ...prevState, [fieldName]: valueToSet }));
   }
+
+  useEffect(() => {
+    onSearch(serachFilter);
+  }, [serachFilter]);
 
   return (
     <>
@@ -147,7 +157,7 @@ export default function SearchFilter() {
               id="minPrice"
               title="최소 가격 검색"
               className="n-input"
-              value={serachFilter.priceAbove}
+              value={formatNumber(serachFilter.priceAbove ?? 0, "")}
               onChange={(e) => setFilterField("priceAbove", e.target.value)}
             />
             <span className="simbol">~</span>
@@ -156,7 +166,7 @@ export default function SearchFilter() {
               id="maxPrice"
               title="최대 가격 검색"
               className="n-input"
-              value={serachFilter.priceBelow}
+              value={formatNumber(serachFilter.priceBelow ?? 0, "")}
               onChange={(e) => setFilterField("priceBelow", e.target.value)}
             />
             <button type="button" className="btn">

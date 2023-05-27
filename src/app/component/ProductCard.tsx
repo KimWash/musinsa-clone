@@ -9,8 +9,8 @@ export interface ProductCardDto extends Product {
 export default function ProductCard({ product }: { product: ProductCardDto }) {
   return (
     <li className="li_box">
-      {product.discountRate && (
-        <div className="icon_new">SALE {product.discountRate}%</div>
+      {product.discountRate && product.discountRate != 0 && (
+        <div className="icon_new">SALE {Math.floor(product.discountRate)}%</div>
       )}
 
       <div className="li_inner">
@@ -38,12 +38,12 @@ export default function ProductCard({ product }: { product: ProductCardDto }) {
 
             {formatNumber(product.discountedPrice ?? product.originPrice, "원")}
           </p>
-          <p className="point">
+          { product.reviewRate && <p className="point">
             <span className="img-score">
-              <span className="bar" style={{ width: "97%" }} />
+              <span className="bar" style={{ width: `${product.reviewRate * 20}%` }} />
             </span>
-            <span className="count">{product.reviewRate}</span>
-          </p>
+            <span className="count">{Math.floor(product.reviewRate * 10) / 10}</span>
+          </p>}
         </div>
       </div>
     </li>

@@ -2,7 +2,7 @@
 
 import GalleryOption from "@/app/component/GalleryOption";
 import ProductCard, { ProductCardDto } from "@/app/component/ProductCard";
-import SearchFilter from "@/app/component/SearchFilter";
+import SearchFilter, { SearchFilterDto } from "@/app/component/SearchFilter";
 import { ResponseWrapper } from "@/app/model/dto/ResponseWrapper";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -10,11 +10,22 @@ import { useEffect, useState } from "react";
 export default function SearchResultPage() {
   const [products, setProducts] = useState<ProductCardDto[]>();
   useEffect(() => {
-    axios.get(`/api/product`).then((res) => {
+    axios.get(`/api/product/filter`).then((res) => {
       const products = res.data as ResponseWrapper<ProductCardDto[]>;
       setProducts(products.data);
     });
   }, []);
+
+  const handleSearch = (filter: SearchFilterDto) => {
+    var payloadString = Object.entries(filter)
+      .map((e) => e.join("="))
+      .join("&");
+
+    axios.get(`/api/product/filter?${payloadString}`).then((res) => {
+      const products = res.data as ResponseWrapper<ProductCardDto[]>;
+      setProducts(products.data);
+    });
+  };
 
   return (
     <>
@@ -32,7 +43,7 @@ export default function SearchResultPage() {
         <h2 className="n-search-result">
           <em>&apos;티셔츠&apos;</em>에 대한 검색결과
         </h2>
-        <SearchFilter />
+        <SearchFilter onSearch={handleSearch} />
         <nav className="n-search-nav"></nav>
         <div className="n-search-contents">
           <div className="boxed-list-wrapper">

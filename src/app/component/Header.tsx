@@ -12,21 +12,16 @@ export default function Header() {
             <form
               id="search_form"
               method="get"
-              action="https://search.musinsa.com/search/musinsa/integration"
+              action="/app/search"
             >
-              <input
-                id="search_type"
-                type="hidden"
-                name="type"
-                defaultValue=""
-              />
+            
               <label htmlFor="search_query" className="blind">
                 통합 검색
               </label>
               <input
                 id="search_query"
                 type="text"
-                name="q"
+                name="keyword"
                 maxLength={30}
                 autoComplete="off"
                 className="search head-search-inp"

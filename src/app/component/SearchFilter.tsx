@@ -4,17 +4,30 @@ import { useEffect, useState } from "react";
 import { formatNumber } from "../util";
 
 export interface SearchFilterDto {
+  keyword?: string;
   category?: string;
   material?: string;
   fit?: string;
   priceAbove?: number;
   priceBelow?: number;
+  orderBy?: string;
+  onlyDiscounted?: boolean;
+  containSoldout?: boolean;
 }
 
 export default function SearchFilter({
-  onSearch,
+  filter,
+  onChange,
+  onStateChange,
 }: {
-  onSearch: (filter: SearchFilterDto) => void;
+  filter: SearchFilterDto;
+  onChange: (
+    fieldName: keyof SearchFilterDto,
+    value: SearchFilterDto[keyof SearchFilterDto]
+  ) => void;
+  onStateChange: (
+    mutator: (prevState: SearchFilterDto) => SearchFilterDto
+  ) => void;
 }) {
   const categories = [
     "상의",
@@ -51,19 +64,6 @@ export default function SearchFilter({
 
   const fits = ["스키니", "슬림", "레귤러", "루즈", "오버사이즈"];
 
-  const [serachFilter, setSearchFilter] = useState<SearchFilterDto>({});
-  function setFilterField(
-    fieldName: keyof SearchFilterDto,
-    value: SearchFilterDto[keyof SearchFilterDto]
-  ) {
-    const valueToSet = serachFilter[fieldName] == value ? undefined : value;
-    setSearchFilter((prevState) => ({ ...prevState, [fieldName]: valueToSet }));
-  }
-
-  useEffect(() => {
-    onSearch(serachFilter);
-  }, [serachFilter]);
-
   return (
     <>
       <div className="n-list-filter">
@@ -85,9 +85,9 @@ export default function SearchFilter({
                     type="button"
                     className="btn"
                     style={{
-                      color: serachFilter.category == category ? "#048eff" : "",
+                      color: filter.category == category ? "#048eff" : "",
                     }}
-                    onClick={() => setFilterField("category", category)}
+                    onClick={() => onChange("category", category)}
                   >
                     {category}
                   </button>
@@ -112,10 +112,9 @@ export default function SearchFilter({
                       type="button"
                       className="btn"
                       style={{
-                        color:
-                          serachFilter.material == material ? "#048eff" : "",
+                        color: filter.material == material ? "#048eff" : "",
                       }}
-                      onClick={() => setFilterField("material", material)}
+                      onClick={() => onChange("material", material)}
                     >
                       {material}
                     </button>
@@ -136,9 +135,9 @@ export default function SearchFilter({
                       type="button"
                       className="btn"
                       style={{
-                        color: serachFilter.fit == fit ? "#048eff" : "",
+                        color: filter.fit == fit ? "#048eff" : "",
                       }}
-                      onClick={() => setFilterField("fit", fit)}
+                      onClick={() => onChange("fit", fit)}
                     >
                       {fit}
                     </button>
@@ -157,8 +156,8 @@ export default function SearchFilter({
               id="minPrice"
               title="최소 가격 검색"
               className="n-input"
-              value={formatNumber(serachFilter.priceAbove ?? 0, "")}
-              onChange={(e) => setFilterField("priceAbove", e.target.value)}
+              value={formatNumber(filter.priceAbove ?? 0, "")}
+              onChange={(e) => onChange("priceAbove", e.target.value)}
             />
             <span className="simbol">~</span>
             <input
@@ -166,8 +165,8 @@ export default function SearchFilter({
               id="maxPrice"
               title="최대 가격 검색"
               className="n-input"
-              value={formatNumber(serachFilter.priceBelow ?? 0, "")}
-              onChange={(e) => setFilterField("priceBelow", e.target.value)}
+              value={formatNumber(filter.priceBelow ?? 0, "")}
+              onChange={(e) => onChange("priceBelow", e.target.value)}
             />
             <button type="button" className="btn">
               <i className="ic-18-stencil-search icon">검색</i>
@@ -187,15 +186,15 @@ export default function SearchFilter({
                 className="btn"
                 style={{
                   color:
-                    serachFilter.priceAbove == (range[0] ?? 0) * 10000 &&
-                    serachFilter.priceBelow ==
+                    filter.priceAbove == (range[0] ?? 0) * 10000 &&
+                    filter.priceBelow ==
                       (!range[1] ? undefined : range[1] * 10000)
                       ? "#048eff"
                       : "",
                 }}
                 data-position="price"
                 onClick={() =>
-                  setSearchFilter((prevState) => ({
+                  onStateChange((prevState) => ({
                     ...prevState,
                     priceAbove: (range[0] ?? 0) * 10000,
                     priceBelow: !range[1] ? undefined : range[1] * 10000,

@@ -5,19 +5,31 @@ import ProductCard, { ProductCardDto } from "@/app/component/ProductCard";
 import SearchFilter, { SearchFilterDto } from "@/app/component/SearchFilter";
 import { ResponseWrapper } from "@/app/model/dto/ResponseWrapper";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function SearchResultPage() {
   const [products, setProducts] = useState<ProductCardDto[]>();
-  useEffect(() => {
-    axios.get(`/api/product/filter`).then((res) => {
-      const products = res.data as ResponseWrapper<ProductCardDto[]>;
-      setProducts(products.data);
-    });
-  }, []);
 
-  const handleSearch = (filter: SearchFilterDto) => {
-    var payloadString = Object.entries(filter)
+  const [serachFilter, setSearchFilter] = useState<SearchFilterDto>({});
+  function setFilterField(
+    fieldName: keyof SearchFilterDto,
+    value: SearchFilterDto[keyof SearchFilterDto]
+  ) {
+    const valueToSet = serachFilter[fieldName] == value ? undefined : value;
+    console.log(valueToSet);
+    setSearchFilter((prevState) => ({ ...prevState, [fieldName]: valueToSet }));
+  }
+
+  const query = useSearchParams();
+
+  useEffect(() => {
+    if (query.has("keyword"))
+      setFilterField("keyword", query.get("keyword") ?? "");
+  }, [query]);
+
+  useEffect(() => {
+    var payloadString = Object.entries(serachFilter)
       .map((e) => e.join("="))
       .join("&");
 
@@ -25,7 +37,7 @@ export default function SearchResultPage() {
       const products = res.data as ResponseWrapper<ProductCardDto[]>;
       setProducts(products.data);
     });
-  };
+  }, [serachFilter]);
 
   return (
     <>
@@ -41,13 +53,24 @@ export default function SearchResultPage() {
       ></link>
       <section className="right_contents n-contents-area">
         <h2 className="n-search-result">
-          <em>&apos;티셔츠&apos;</em>에 대한 검색결과
+          <em>
+            &apos;{query.has("keyword") ? query.get("keyword") : ""}&apos;
+          </em>
+          에 대한 검색결과
         </h2>
-        <SearchFilter onSearch={handleSearch} />
+        <SearchFilter
+          onChange={setFilterField}
+          onStateChange={setSearchFilter}
+          filter={serachFilter}
+        />
         <nav className="n-search-nav"></nav>
         <div className="n-search-contents">
           <div className="boxed-list-wrapper">
-            <GalleryOption />
+            <GalleryOption
+              onChange={setFilterField}
+              filter={serachFilter}
+              totalElements={products?.length ?? 0}
+            />
             <div className="list-box box">
               <div className="snap-article-list boxed-article-list article-list center list goods_small_media8">
                 {products &&

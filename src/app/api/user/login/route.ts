@@ -19,7 +19,13 @@ export async function POST(req: Request) {
     }
 
     const result = await queryPromise(
-      `SELECT memberId, nickNm, userPoint, userRank FROM TMember WHERE memberId = '${body.memberId}' && userPwd = '${body.password}'`
+      `
+       SELECT TMember.memberId, nickNm, userPoint, userRank, TMember.regDt, COUNT(TReview.reviewId) as reviewCount FROM TMember
+      LEFT JOIN TOrder ON TMember.memberIdx = TOrder.memberId
+      LEFT JOIN TReview ON TReview.orderId = TOrder.orderId
+      WHERE TMember.memberId = '${body.memberId}' && userPwd = '${body.password}'
+      GROUP BY TMember.memberIdx;
+      `
     );
     return new Response(JSON.stringify(ResponseWrapper.Success(result[0])));
   } catch (e) {

@@ -56,7 +56,7 @@ export default function Signup() {
                     margin: "40px auto",
                   }}
                 >
-                  로그인
+                  회원가입
                 </h2>
               </div>
             </div>

@@ -6,6 +6,14 @@ export function collapseText(text?: string, length?: number) {
 export function formatNumber(num: number, currency: string) {
   return new Intl.NumberFormat("en-US").format(num) + currency;
 }
+export function transformShippingState(stateNum: number) {
+  switch (stateNum) {
+    case 0: return '결제 완료'
+    case 1: return '배송준비중'
+    case 2: return '배송중'
+    case 3: return '배송완료'
+  }
+}
 
 export function handleError(e: any) {
   if (e instanceof Error)

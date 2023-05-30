@@ -1,20 +1,18 @@
-import Link from "next/link";
+"use client";
+
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const router = useRouter();
   return (
     <div className="header store_header clearfix">
       <div className="main-wrapper wrapper">
-        <h1 className="title">
-          <Link href="/app">MUSINSA</Link>
+        <h1 className="title" >
+          <p onClick={() => router.replace("/app")}>MUSINSA</p>
         </h1>
         <div className="search-wrapper ">
           <div className="fl searchInput-box box">
-            <form
-              id="search_form"
-              method="get"
-              action="/app/search"
-            >
-            
+            <form id="search_form" method="get" action="/app/search">
               <label htmlFor="search_query" className="blind">
                 통합 검색
               </label>
@@ -37,47 +35,6 @@ export default function Header() {
               </span>
             </form>
           </div>
-        </div>
-        <div className="gnb wrapper clearfix">
-          <ul className="gnb-list clearfix gnb-list-wrap">
-            <li className="hovering gnb-campaign-list">
-              <a
-                href="https://www.musinsa.com/app/campaign/index/togethersale23"
-                style={{ color: "rgb(0, 145, 250)" }}
-              >
-                동행세일
-              </a>
-            </li>
-            <li className="hovering gnb-campaign-list">
-              <a
-                href="https://www.musinsa.com/app/plan/views/35646"
-                style={{ color: "rgb(0, 212, 123)" }}
-              >
-                PLUS배송
-              </a>
-            </li>
-            <li className="hovering">
-              <a href="https://www.musinsa.com/ranking/best">랭킹</a>
-            </li>
-            <li className="hovering">
-              <a href="https://www.musinsa.com/app/styles/lists">코디</a>
-            </li>
-            <li className="hovering">
-              <a href="https://www.musinsa.com/app/showcase/lists">스페셜</a>
-            </li>
-            <li className="hovering">
-              <a href="https://www.musinsa.com/mz/news">매거진</a>
-            </li>
-            <li className="hovering">
-              <a href="https://www.musinsa.com/mz/tv">TV</a>
-            </li>
-            <li className="hovering">
-              <a href="https://www.musinsa.com/app/raffle/lists">이벤트</a>
-            </li>
-            <li className="hovering">
-              <a href="https://www.musinsa.com/brands">브랜드</a>
-            </li>
-          </ul>
         </div>
         <div
           className="store-searchWord-box searchWord-box box clearfix ui-search-recommend-area ui-search-recommend-area-result search_layer"

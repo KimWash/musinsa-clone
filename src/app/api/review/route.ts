@@ -9,8 +9,8 @@ const queryPromise = require("../../common/config/db/db");
  */
 export async function GET() {
   try {
-    const result = await queryPromise(
-      `	SELECT TOrder.orderId, reviewId, TOrder.productId, productNm, name as sizeNm, TReview.imageUrl, content, rate, regDt, TProduct.imageUrl as productImageUrl, TMember.nickNm FROM TReview 
+    const query = `
+    SELECT TOrder.orderId, reviewId, TOrder.productId, productNm, name as sizeNm, TReview.imageUrl, content, rate, TReview.regDt, TProduct.imageUrl as productImageUrl, TMember.nickNm FROM TReview 
       INNER JOIN TOrder
       ON TReview.orderId = TOrder.orderId
       INNER JOIN TProduct
@@ -18,21 +18,21 @@ export async function GET() {
       INNER JOIN TSize
       ON TOrder.sizeId = TSize.sizeId
       INNER JOIN TMember
-      ON TMember.memberIdx = TOrder.memberId
-       `
-    );
+      ON TMember.memberIdx = TOrder.memberId`;
+    const result = await queryPromise(query);
+    console.log(result);
     const dto = result.map(
       (item: any, idx: number) =>
         ({
-         id: item.reviewId,
-         productId: item.productId,
-         productName: item.productNm,
-         productImageUrl: item.productImageUrl,
-         content: item.content,
-         imageUrl: item.imageUrl,
-         rate: item.rate,
-         regDt: item.regDt,
-         authorName: item.nickNm
+          id: item.reviewId,
+          productId: item.productId,
+          productName: item.productNm,
+          productImageUrl: item.productImageUrl,
+          content: item.content,
+          imageUrl: item.imageUrl,
+          rate: item.rate,
+          regDt: item.regDt,
+          authorName: item.nickNm,
         } as Review)
     );
     return new Response(JSON.stringify(ResponseWrapper.Success(dto)));

@@ -71,60 +71,25 @@ export default function HeaderMemeber() {
       </div>
 
       <div className="header-member__block">
-        <a
-          href="https://www.musinsa.com/app/mypage"
+        <Link
+          href="/mypage"
           aria-label="마이페이지로 이동"
           className="header-member__link"
         >
           마이페이지
-        </a>
+        </Link>
       </div>
-      <div className="header-member__block">
-        <a
-          href="https://www.musinsa.com/app/mypage/viewed_goods"
-          aria-label="최근본상품 페이지로 이동"
-          className="header-member__link"
-        >
-          최근 본 상품
-        </a>
-      </div>
-      <div className="header-member__block">
-        <a
-          href="https://www.musinsa.com/app/mypage/favorite_goods"
-          aria-label="좋아요 페이지로 이동"
-          className="header-member__link header-member__link--like"
-        >
-          좋아요
-        </a>
-      </div>
-      <div className="header-member__block">
-        <a
-          href="https://www.musinsa.com/app/cart"
-          aria-label="장바구니 페이지로 이동"
-          className="header-member__link"
-        >
-          장바구니
-        </a>
-      </div>
+  
       <div className="header-member__block">
         <p
           onClick={() => {
-            if (user) router.push("/app/mypage");
+            if (user) router.push("/mypage");
             else router.push("/login");
           }}
           className="header-member__link"
         >
           주문배송조회
         </p>
-      </div>
-      <div className="header-member__block">
-        <a
-          href="https://www.musinsa.com/app/cs"
-          aria-label="고객센터 페이지로 이동"
-          className="header-member__link"
-        >
-          고객센터
-        </a>
       </div>
       {user ? (
         <div className="header-member__block">

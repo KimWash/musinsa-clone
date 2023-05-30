@@ -24,7 +24,7 @@ export default function SearchResultPage() {
   const query = useSearchParams();
 
   useEffect(() => {
-    if (query.has("keyword"))
+    if (query.has("keyword") && query.get("keyword") != '')
       setFilterField("keyword", query.get("keyword") ?? "");
   }, [query]);
 
